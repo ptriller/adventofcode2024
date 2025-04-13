@@ -2,47 +2,53 @@
 //! you are building an executable. If you are making a library, the convention
 //! is to delete this file and start with root.zig instead.
 const std = @import("std");
-const regex = @import("regex");
-
+const debug = std.debug;
+const Regex = @import("regex").Regex;
+const util = @import("util");
 pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
-
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
-    const stdout_file = std.io.getStdOut().writer();
-    var bw = std.io.bufferedWriter(stdout_file);
-    const stdout = bw.writer();
-
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
-
-    try bw.flush(); // Don't forget to flush!
-}
-
-test "regex" {
-    var re = try regex.Regex.compile(std.heap.page_allocator, "\\w+");
-
-    std.debug.assert(try re.match("hej") == true);
-}
-
-test "simple test" {
-    var list = std.ArrayList(i32).init(std.testing.allocator);
-    defer list.deinit(); // Try commenting this out and see if zig detects the memory leak!
-    try list.append(42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
-}
-
-
-test "fuzz example" {
-    const Context = struct {
-        fn testOne(context: @This(), input: []const u8) anyerror!void {
-            _ = context;
-            // Try passing `--fuzz` to `zig build test` and see if it manages to fail this test case!
-            try std.testing.expect(!std.mem.eql(u8, "canyoufindme", input));
+    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    const alloc = arena.allocator();
+    defer arena.deinit();
+    var file = try util.read_file("./src/day1/data.txt", alloc);
+    defer file.deinit();
+    var re = try Regex.compile(alloc, "(\\d+)[^\\d]+(\\d+)");
+    defer re.deinit();
+    var alist = try alloc.alloc(u32, file.lines.len);
+    var blist = try alloc.alloc(u32, file.lines.len);
+    for(0.., file.lines) | idx, line | {
+        const captures = (try re.captures(line)).?;
+        const left = try std.fmt.parseInt(u32, captures.sliceAt(1).?, 10);
+        const right = try std.fmt.parseInt(u32, captures.sliceAt(2).?, 10);
+        alist[idx] = left;
+        blist[idx] = right;
+    }
+    std.mem.sort(u32, alist, {}, comptime std.sort.asc(u32));
+    std.mem.sort(u32, blist, {}, comptime std.sort.asc(u32));
+    defer alloc.free(alist);
+    defer alloc.free(blist);
+    var diff: usize = 0;
+    for(alist, blist) | l, r | {
+        diff += @abs(@max(l,r) - @min(l,r));
+    }
+    std.debug.print("Diff: {d}\n", .{diff});
+    var similarity: usize = 0;
+    for(alist) | l | {
+        var count: usize = 0;
+        var pos = std.sort.lowerBound(u32, blist, l,order32);
+        while(pos < blist.len and blist[pos] == l) {
+            count += 1;
+            pos+= 1;
         }
-    };
-    try std.testing.fuzz(Context{}, Context.testOne, .{});
+        std.debug.print("Add: {d}\n", .{count*l});
+        similarity += count*l;
+    }
+    std.debug.print("Similarity: {d}\n", .{similarity});
 }
 
+fn order32(l: u32, r: u32) std.math.Order {
+    return std.math.order(l,r);
+}
 
+test {
+    std.testing.refAllDecls(@This());
+}
