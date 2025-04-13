@@ -58,7 +58,10 @@ pub fn build(b: *std.Build) !void {
     const config = BuildConfig{
         .build = b,
         .target = b.standardTargetOptions(.{}),
-        .optimize = b.standardOptimizeOption(.{})
+        .optimize = b.standardOptimizeOption(.{
+            .preferred_optimize_mode = std.builtin.OptimizeMode.Debug
+        })
     };
-    try setup_day("day1", &config);
+    //try setup_day("day1", &config);
+    try setup_day("day2", &config);
 }
