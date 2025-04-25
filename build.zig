@@ -66,5 +66,6 @@ pub fn build(b: *std.Build) !void {
     try setup_day("day2", &config);
     try setup_day("day3", &config);
     try setup_day("day4", &config);
+    try setup_day("day5", &config);
 
 }
