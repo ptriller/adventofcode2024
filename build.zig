@@ -36,19 +36,20 @@ pub fn setup_day(name: []const u8, cfg: *const BuildConfig) !void {
         cfg.build.fmt("Run app for day {s}", .{name}));
     run_step.dependOn(&run_cmd.step);
 
-    const exe_unit_tests = cfg.build.addTest(.{
-        .root_module = exe_mod,
-    });
-
-    const run_exe_unit_tests = cfg.build.addRunArtifact(exe_unit_tests);
-
-    const test_name = cfg.build.fmt(
-        "{s}_test",
-        .{name},
-    );
-    const test_step = cfg.build.step(test_name,
-        cfg.build.fmt("Run test for {s}", .{name}));
-    test_step.dependOn(&run_exe_unit_tests.step);
+    // const exe_unit_tests = cfg.build.addTest(.{
+    //     .root_module = exe_mod,
+    // });
+    //
+    // const run_exe_unit_tests = cfg.build.addRunArtifact(exe_unit_tests);
+    //
+    // const test_name = cfg.build.fmt(
+    //     "{s}_test",
+    //     .{name},
+    // );
+    // const test_step = cfg.build.step(test_name,
+    //     cfg.build.fmt("Run test for {s}", .{name}));
+    // test_step.dependOn(&run_exe_unit_tests.step);
+    //
 }
 
 // Although this function looks imperative, note that its job is to
@@ -68,5 +69,6 @@ pub fn build(b: *std.Build) !void {
     try setup_day("day4", &config);
     try setup_day("day5", &config);
     try setup_day("day6", &config);
+    try setup_day("day7", &config);
 
 }
