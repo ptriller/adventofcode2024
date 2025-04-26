@@ -6,8 +6,8 @@ const TextFile = struct {
     const Self = @This();
 
     allocator: Allocator,
-    data: []const u8,
-    lines: [] const [] const u8,
+    data: [] u8,
+    lines: [] const []  u8,
 
     pub fn deinit(self: Self) void {
         self.allocator.free(self.lines);

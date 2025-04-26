@@ -24,7 +24,7 @@ pub fn setup_day(name: []const u8, cfg: *const BuildConfig) !void {
         .name = name,
         .root_module = exe_mod,
     });
-
+    exe.linkLibC();
     cfg.build.installArtifact(exe);
 
     const run_cmd = cfg.build.addRunArtifact(exe);
@@ -67,5 +67,6 @@ pub fn build(b: *std.Build) !void {
     try setup_day("day3", &config);
     try setup_day("day4", &config);
     try setup_day("day5", &config);
+    try setup_day("day6", &config);
 
 }

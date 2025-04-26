@@ -14,7 +14,7 @@ pub fn main() !void {
 }
 
 fn test_ab(file_name: []const u8) !void {
-    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     const alloc = arena.allocator();
     defer arena.deinit();
     const rules, const data = try read_data(file_name, alloc);
@@ -51,7 +51,7 @@ fn test_b(file_name: []const u8) !void {
 }
 
 fn sort_line(smap: std.AutoHashMap(usize, NodeList), line: []const usize) !usize {
-    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     const alloc = arena.allocator();
     var lineset = NodeList.init(alloc);
     var result = std.ArrayList(usize).init(alloc);
