@@ -9,7 +9,7 @@ pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     const alloc = arena.allocator();
     defer arena.deinit();
-    var file = try util.read_file("./src/day1/data.txt", alloc);
+    var file = try util.read_file("./src/day01/data.txt", alloc);
     defer file.deinit();
     var re = try Regex.compile(alloc, "(\\d+)[^\\d]+(\\d+)");
     defer re.deinit();

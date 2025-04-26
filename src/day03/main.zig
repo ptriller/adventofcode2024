@@ -9,7 +9,7 @@ pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     const alloc = arena.allocator();
     defer arena.deinit();
-    var file = try util.read_file("./src/day3/data.txt", alloc);
+    var file = try util.read_file("./src/day03/data.txt", alloc);
     defer file.deinit();
     var offset: usize = 0;
     var result_a: usize = 0;

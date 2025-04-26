@@ -52,7 +52,7 @@ test "Read File" {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
     const allocator = arena.allocator();
-    const file  = try read_file("src/day1/data.txt"[0..],allocator);
+    const file  = try read_file("src/day01/data.txt"[0..],allocator);
     defer file.deinit();
     std.debug.print("Total lines: {d}\n", .{file.lines.len});
     var re = try Regex.compile(allocator, "(\\d+)[^\\d]+(\\d+)");

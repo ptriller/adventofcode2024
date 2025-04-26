@@ -7,7 +7,7 @@ const Regex = @import("regex").Regex;
 const util = @import("util");
 pub fn main() !void {
     const start = std.time.milliTimestamp(); // Record start time
-    try test_ab("./src/day6/data.txt");
+    try test_ab("./src/day06/data.txt");
     const end = std.time.milliTimestamp(); // Record end time
     const elapsed = end - start; // Calculate elapsed time in milliseconds
     std.debug.print("Execution time: {} ms\n", .{elapsed});

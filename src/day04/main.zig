@@ -6,8 +6,8 @@ const debug = std.debug;
 const Regex = @import("regex").Regex;
 const util = @import("util");
 pub fn main() !void {
-    try test_a("./src/day4/data.txt");
-    try test_b("./src/day4/data.txt");
+    try test_a("./src/day04/data.txt");
+    try test_b("./src/day04/data.txt");
 
 }
 
