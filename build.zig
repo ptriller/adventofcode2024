@@ -63,12 +63,13 @@ pub fn build(b: *std.Build) !void {
             .preferred_optimize_mode = std.builtin.OptimizeMode.Debug
         })
     };
-    try setup_day("day1", &config);
-    try setup_day("day2", &config);
-    try setup_day("day3", &config);
-    try setup_day("day4", &config);
-    try setup_day("day5", &config);
-    try setup_day("day6", &config);
-    try setup_day("day7", &config);
-    try setup_day("day8", &config);
+    try setup_day("day01", &config);
+    try setup_day("day02", &config);
+    try setup_day("day03", &config);
+    try setup_day("day04", &config);
+    try setup_day("day05", &config);
+    try setup_day("day06", &config);
+    try setup_day("day07", &config);
+    try setup_day("day08", &config);
+    try setup_day("day09", &config);
 }
