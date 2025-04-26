@@ -7,8 +7,7 @@ const Regex = @import("regex").Regex;
 const util = @import("util");
 pub fn main() !void {
     const start = std.time.milliTimestamp(); // Record start time
-    // try test_a("./src/day6/test.txt");
-    try test_b("./src/day6/data.txt");
+    try test_ab("./src/day6/data.txt");
     const end = std.time.milliTimestamp(); // Record end time
     const elapsed = end - start; // Calculate elapsed time in milliseconds
     std.debug.print("Execution time: {} ms\n", .{elapsed});
@@ -16,18 +15,7 @@ pub fn main() !void {
 
 const Direction = enum(u8) { UP = '^', RIGHT = '>', DOWN = 'v', LEFT = '<' };
 
-fn test_a(file_name: []const u8) !void {
-    var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
-    const alloc = arena.allocator();
-    defer arena.deinit();
-    var file = try util.read_file(file_name, alloc);
-    defer file.deinit();
-    const fields = try process_field(file.lines, alloc);
-    std.debug.print("Number of Fields: {d}\n", .{fields.count()});
-    fields.deinit();
-}
-
-fn test_b(file_name: []const u8) !void {
+fn test_ab(file_name: []const u8) !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.c_allocator);
     const alloc = arena.allocator();
     defer arena.deinit();
@@ -35,6 +23,7 @@ fn test_b(file_name: []const u8) !void {
     defer file.deinit();
     var loops: usize = 0;
     var fields = try process_field(file.lines, alloc);
+    std.debug.print("Number of Fields: {d}\n", .{fields.count()});
     defer fields.deinit();
     var it = fields.iterator();
     while (it.next()) |field| {
