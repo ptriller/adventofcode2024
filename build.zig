@@ -70,5 +70,5 @@ pub fn build(b: *std.Build) !void {
     try setup_day("day5", &config);
     try setup_day("day6", &config);
     try setup_day("day7", &config);
-
+    try setup_day("day8", &config);
 }
